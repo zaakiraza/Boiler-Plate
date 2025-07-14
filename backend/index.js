@@ -1,0 +1,28 @@
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { connectDB } from './Utils/DB.js';
+import authRoutes from './Routes/authRoutes.js';
+import userRoutes from './Routes/userRoutes.js';
+
+dotenv.config();
+
+const app = express();
+
+connectDB();
+
+app.use(cors());
+app.use(express.json());
+
+
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+
+app.use('/', (req, res) => {
+    res.send("Welcome to the backend API");
+});
+
+
+app.listen(process.env.PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`);
+});
