@@ -12,11 +12,13 @@ export const registerUser = async (req, res) => {
             return errorHandler(res, 400, "All fields are required");
         }
 
-        if (await user.findOne({ email })) {
+        const isUserExists = await user.findOne({ email });
+        if (isUserExists) {
             return errorHandler(res, 400, "Email already exists");
         }
 
-        if (await user.findOne({ userName })) {
+        const isUserNameExists = await user.findOne({ userName: userName.toLocaleLowerCase() });
+        if (isUserNameExists) {
             return errorHandler(res, 400, "Username already exists");
         }
 
@@ -150,8 +152,8 @@ export const resendOtp = async (req, res) => {
 
     await sendEmail(
         userDetail.email,
-        "Your OTP Verification Code",
-        `Dear ${userDetail.userName}, \n Your OTP code is: ${otp}. It will expire in 1 minute.`
+        "Request for resend OTP",
+        `Dear ${userDetail.userName},\nYour OTP code is: ${otp}. It will expire in 1 minute.`
     );
     return successHandler(res, 200, "verification code send successfully");
 }

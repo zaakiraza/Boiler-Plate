@@ -10,9 +10,10 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!email || !password) {
-      setMessage("Feilds are missing");
+      setMessage("Fields are missing");
       setTimeout(() => {
         setMessage("");
       }, 2000);
@@ -24,13 +25,14 @@ function Login() {
         email: email,
         password: password,
       });
-      localStorage.setItem("token", res.data.data);
       if (!res.data.status) {
         setMessage(res.data.message);
         return;
       }
-      navigate("/VerifyOtp");
-    } catch (err) {
+      localStorage.setItem("token", res.data.data);
+      navigate("/Dashboard");
+    } 
+    catch (err) {
       setMessage(err.response?.data?.message || "Login failed");
     }
   };
@@ -38,7 +40,7 @@ function Login() {
   return (
     <div style={styles.loginForm}>
       <h1>Login Page</h1>
-      <form style={styles.form}>
+      <form style={styles.form} onSubmit={handleSubmit}>
         <input
           style={styles.input}
           type="email"
@@ -55,13 +57,17 @@ function Login() {
             setPassword(e.target.value);
           }}
         />
+        <button style={styles.button} type="submit">
+          Login
+        </button>
       </form>
-      <button style={styles.button} onClick={handleSubmit}>
-        Login
-      </button>
       <p style={styles.error}>{message}</p>
       <p style={styles.p}>
         Didn't have an account? <Link to="/register">Register</Link>
+      </p>
+      {/* Forgot Password Link */}
+      <p style={styles.forgotPassword}>
+        <Link to="/forgotPassword">Forgot Password?</Link>
       </p>
     </div>
   );
@@ -80,10 +86,10 @@ const styles = {
     textAlign: "center",
   },
   form: {
-    width: "92%",
+    width: "100%",
   },
   input: {
-    width: "100%",
+    width: "90%",
     padding: "10px",
     margin: "10px 0",
     borderRadius: "5px",
@@ -106,5 +112,11 @@ const styles = {
   },
   error: {
     color: "red",
+  },
+  forgotPassword: {
+    cursor: "pointer",
+    marginTop: "10px",
+    fontSize: "12px",
+    color: "#007bff",
   },
 };

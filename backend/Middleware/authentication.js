@@ -3,7 +3,6 @@ import { successHandler, errorHandler } from "../Utils/responseHandler.js";
 
 export const authenticateToken = (req, res, next) => {
     const authHeader = req.headers["authorization"];
-
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return errorHandler(res, 401, "Authorization token is required");
     }

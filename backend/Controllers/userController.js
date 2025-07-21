@@ -15,7 +15,7 @@ export const getUserById = async (req, res) => {
         return errorHandler(res, 400, "Id se required");
     }
 
-    const userDetail = await user.findById(id).select('-password');;
+    const userDetail = await user.findById(id).select('-password');
     if (!userDetail) {
         return errorHandler(res, 400, "InValid Id");
     }
@@ -58,4 +58,19 @@ export const deleteUser = async (req, res) => {
     }
 
     return successHandler(res, 200, "user deleted successfully");
+}
+
+export const getLoggedInUser = async (req, res) => {
+    const userId = req.user;
+    try {
+        const loggedInUser = await user.findById(userId.userId).select('-password -createdAt -updatedAt -isAdmin');
+        if (!loggedInUser) {
+            return errorHandler(res, 400, "User not found");
+        }
+        return successHandler(res, 200, "User found successfully", loggedInUser, 1);
+
+    }
+    catch (e) {
+        return errorHandler(res, 400, "Cannot find the user", e.message);
+    }
 }

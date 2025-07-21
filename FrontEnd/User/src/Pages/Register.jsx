@@ -1,20 +1,42 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [userName, setuserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
 
+  const navigate = useNavigate();
+
   const handleRegister = async () => {
-    if (!email || !password) {
-      setMessage("Feilds are missing");
+    if (!email || !password || !userName || !phone) {
+      setMessage("Fields are missing");
       setTimeout(() => {
         setMessage("");
       }, 2000);
       return;
+    }
+
+    try {
+      const res = await axios.post("http://localhost:3001/api/auth/register", {
+        email: email,
+        password: password,
+        userName: userName,
+        phone: phone,
+      });
+
+      if (res.data.status) {
+        setMessage(res.data.message);
+        localStorage.setItem("token", res.data.data.token);
+        navigate("/VerifyOtp");
+      }
+    } 
+    catch (err) {
+      setMessage(err.response?.data?.message);
     }
   };
 
@@ -51,7 +73,7 @@ function Register() {
           type="number"
           placeholder="phone Number"
           onChange={(e) => {
-            setPhoneNumber(e.target.value);
+            setPhone(e.target.value);
           }}
         />
       </form>
