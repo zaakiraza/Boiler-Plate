@@ -6,6 +6,7 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import ForgotPassword from "./Pages/ForgotPassword";
 import ProtectedRoute from "./Components/ProtectedRoutes/ProtectedRoute";
 import PublicRoute from "./Components/PublicRoutes/PublicRoute";
+import ResetPassword from "./Pages/ResetPassword";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         {/* Protected Routes Wrapper */}
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/resetPassword" element={<ResetPassword />} />
         </Route>
       </Routes>
     </Router>

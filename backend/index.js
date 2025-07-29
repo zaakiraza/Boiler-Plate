@@ -4,8 +4,10 @@ import dotenv from 'dotenv';
 import { connectDB } from './Utils/DB.js';
 import authRoutes from './Routes/authRoutes.js';
 import userRoutes from './Routes/userRoutes.js';
+// import job from './Utils/cronJob.js';
 
 dotenv.config();
+
 
 const app = express();
 

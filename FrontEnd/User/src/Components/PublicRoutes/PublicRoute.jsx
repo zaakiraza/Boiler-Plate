@@ -40,10 +40,6 @@ const PublicRoute = ({ element }) => {
     checkUserStatus();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   if (isVerified) {
     return <Navigate to="/dashboard" />;
   }

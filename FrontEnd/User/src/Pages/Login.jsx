@@ -7,6 +7,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -31,8 +32,7 @@ function Login() {
       }
       localStorage.setItem("token", res.data.data);
       navigate("/Dashboard");
-    } 
-    catch (err) {
+    } catch (err) {
       setMessage(err.response?.data?.message || "Login failed");
     }
   };
@@ -49,14 +49,21 @@ function Login() {
             setEmail(e.target.value);
           }}
         />
-        <input
-          style={styles.input}
-          type="password"
-          placeholder="Password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
+        <div style={styles.passwordWrapper}>
+          <input
+            style={styles.input}
+            type={showPassword ? "text" : "password"} // Toggle between text and password
+            placeholder="Password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <i
+            className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`} // Toggle between eye and eye-slash icons
+            style={styles.eyeIcon}
+            onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+          ></i>
+        </div>
         <button style={styles.button} type="submit">
           Login
         </button>
@@ -118,5 +125,15 @@ const styles = {
     marginTop: "10px",
     fontSize: "12px",
     color: "#007bff",
+  },
+  passwordWrapper: {
+    position: "relative",
+  },
+  eyeIcon: {
+    position: "absolute",
+    right: "15px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    cursor: "pointer",
   },
 };

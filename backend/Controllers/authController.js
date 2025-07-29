@@ -158,10 +158,70 @@ export const resendOtp = async (req, res) => {
     return successHandler(res, 200, "verification code send successfully");
 }
 
-export const forgotPassword = async (req, res) => {
-    const userId = req.user;
+export const forgotPasswordOtp = async (req, res) => {
+    const { email } = req.body;
+    if (!email) {
+        return errorHandler(res, 404, "Email is are missing");
+    }
 
-    const userDetail = await user.findById(userId.userId);
+    const userDetails = await user.findOne({ email: req.body.email });
+    if (!userDetails) {
+        return errorHandler(res, 400, "Invalid Email");
+    }
+
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+    const otpExpiresAt = new Date(Date.now() + 1 * 60 * 1000);
+
+    userDetails.otp = otp;
+    userDetails.otpExpiresAt = otpExpiresAt;
+    await userDetails.save();
+
+    const data = {
+        email: email,
+        otpExpiresAt: otpExpiresAt
+    }
+
+    await sendEmail(
+        email,
+        "Your Email Verification Code",
+        `Dear ${userDetails.userName}, \n Your OTP code is: ${otp}. It will expire in 1 minute.`
+    );
+
+    return successHandler(res, 200, "Email verification code has been sent to your email", data)
+}
+
+export const verifyChangePasswordOtp = async (req, res) => {
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+        return errorHandler(res, 404, "Feilds are missing");
+    }
+
+    const userDetails = await user.findOne({ email: email });
+    if (!userDetails) {
+        return errorHandler(res, 400, "Invalid Email");
+    }
+
+    if (otp != userDetails.otp) {
+        return errorHandler(res, 400, "Invalid OTP");
+    }
+
+    if (Date.now() >= userDetails.otpExpiresAt) {
+        return errorHandler(res, 400, "OTP expires");
+    }
+
+    userDetails.otp = undefined;
+    userDetails.otpExpiresAt = undefined;
+    await userDetails.save();
+    return successHandler(res, 200, "Verified successfully");
+}
+
+export const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+    if (!email) {
+        return errorHandler(res, 404, "Email is are missing");
+    }
+
+    const userDetail = await user.findOne({ email });
     if (!userDetail) {
         return errorHandler(res, 404, "User not found");
     }
@@ -182,6 +242,9 @@ export const forgotPassword = async (req, res) => {
 export const changePassword = async (req, res) => {
     const { oldPassword, newPassword } = req.body;
     const userId = req.user;
+    if (!oldPassword || !newPassword) {
+        return errorHandler(res, 400, "All fields are required");
+    }
 
     const userDetail = await user.findById(userId.userId);
     if (!userDetail) {
@@ -228,3 +291,4 @@ export const adminLogin = async (req, res) => {
     );
     return successHandler(res, 200, "login sccessfully", token);
 }
+

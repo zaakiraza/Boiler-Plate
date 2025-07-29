@@ -1,18 +1,23 @@
 import express from 'express';
-import { registerUser, loginUser, verifyOtp, resendOtp, forgotPassword, changePassword, adminLogin } from '../Controllers/authController.js';
+import { registerUser, loginUser, verifyOtp, resendOtp, forgotPassword, changePassword, adminLogin, forgotPasswordOtp, verifyChangePasswordOtp } from '../Controllers/authController.js';
 import { authenticateToken } from '../Middleware/authentication.js';
 
 const authRouter = express.Router();
 
-// Public routes
-authRouter.post('/register', registerUser);
 authRouter.post('/login', loginUser);
 authRouter.get('/adminLogin', adminLogin);
 
-// Protected routess
+authRouter.post('/register', registerUser);
 authRouter.get('/resendOtp', authenticateToken, resendOtp);
 authRouter.post('/verifyOtp', authenticateToken, verifyOtp);
-authRouter.post('/forgotPassword', authenticateToken, forgotPassword);
+
+authRouter.post('/forgotPasswordOtp', forgotPasswordOtp);
+authRouter.post('/verifyforgotPasswordOtp', verifyChangePasswordOtp);
+authRouter.post('/forgotPassword', forgotPassword);
+
+
+
+
 authRouter.post('/changePassword', authenticateToken, changePassword);
 
 export default authRouter;

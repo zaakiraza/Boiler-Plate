@@ -9,6 +9,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const navigate = useNavigate();
 
@@ -34,8 +35,7 @@ function Register() {
         localStorage.setItem("token", res.data.data.token);
         navigate("/VerifyOtp");
       }
-    } 
-    catch (err) {
+    } catch (err) {
       setMessage(err.response?.data?.message);
     }
   };
@@ -60,18 +60,25 @@ function Register() {
             setEmail(e.target.value);
           }}
         />
-        <input
-          style={styles.input}
-          type="password"
-          placeholder="Password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
+        <div style={styles.passwordWrapper}>
+          <input
+            style={styles.input}
+            type={showPassword ? "text" : "password"} // Show text if showPassword is true
+            placeholder="Password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <i
+            className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`}
+            style={styles.eyeIcon}
+            onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+          ></i>
+        </div>
         <input
           style={styles.input}
           type="number"
-          placeholder="phone Number"
+          placeholder="Phone Number"
           onChange={(e) => {
             setPhone(e.target.value);
           }}
@@ -127,5 +134,15 @@ const styles = {
   },
   error: {
     color: "red",
+  },
+  passwordWrapper: {
+    position: "relative",
+  },
+  eyeIcon: {
+    position: "absolute",
+    right: "0px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    cursor: "pointer",
   },
 };
