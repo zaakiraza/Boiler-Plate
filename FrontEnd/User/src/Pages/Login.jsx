@@ -22,10 +22,13 @@ function Login() {
     }
 
     try {
-      const res = await axios.post("http://localhost:3001/api/auth/login", {
-        email: email,
-        password: password,
-      });
+      const res = await axios.post(
+        "https://hackathonbackend-ebon.vercel.app/api/auth/login",
+        {
+          email: email,
+          password: password,
+        }
+      );
       if (!res.data.status) {
         setMessage(res.data.message);
         return;

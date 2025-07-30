@@ -32,7 +32,7 @@ function VerifyOtp() {
 
     try {
       const res = await axios.post(
-        "http://localhost:3001/api/auth/verifyOtp",
+        "https://hackathonbackend-ebon.vercel.app/api/auth/verifyOtp",
         { otp: otpString },
         {
           headers: {
@@ -54,11 +54,14 @@ function VerifyOtp() {
   // Handle OTP resend request
   const handleResendOtp = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/api/auth/resendOtp", {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
+      const res = await axios.get(
+        "https://hackathonbackend-ebon.vercel.app/api/auth/resendOtp",
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
 
       if (res.data.status) {
         setMessage("OTP has been resent to your email.");

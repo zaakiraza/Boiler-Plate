@@ -23,12 +23,15 @@ function Register() {
     }
 
     try {
-      const res = await axios.post("http://localhost:3001/api/auth/register", {
-        email: email,
-        password: password,
-        userName: userName,
-        phone: phone,
-      });
+      const res = await axios.post(
+        "https://hackathonbackend-ebon.vercel.app/api/auth/register",
+        {
+          email: email,
+          password: password,
+          userName: userName,
+          phone: phone,
+        }
+      );
 
       if (res.data.status) {
         setMessage(res.data.message);

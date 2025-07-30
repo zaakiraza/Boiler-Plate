@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; 
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 function ResetPassword() {
   const [oldPassword, setOldPassword] = useState("");
@@ -22,7 +22,7 @@ function ResetPassword() {
     }
     try {
       const api = await axios.post(
-        "http://localhost:3001/api/auth/changePassword",
+        "https://hackathonbackend-ebon.vercel.app/api/auth/changePassword",
         {
           oldPassword: oldPassword,
           newPassword: password,
@@ -48,7 +48,6 @@ function ResetPassword() {
           handleSubmitPassword(e);
         }}
       >
-        
         <div style={styles.passwordInputWrapper}>
           <input
             type={showOldPassword ? "text" : "password"}
@@ -65,7 +64,6 @@ function ResetPassword() {
           </button>
         </div>
 
-        
         <div style={styles.passwordInputWrapper}>
           <input
             type={showPassword ? "text" : "password"}
@@ -82,7 +80,6 @@ function ResetPassword() {
           </button>
         </div>
 
-        
         <div style={styles.passwordInputWrapper}>
           <input
             type={showConfirmPassword ? "text" : "password"}

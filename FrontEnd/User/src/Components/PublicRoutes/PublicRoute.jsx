@@ -17,7 +17,7 @@ const PublicRoute = ({ element }) => {
 
       try {
         const res = await axios.get(
-          "http://localhost:3001/api/users/loggedInUser",
+          "https://hackathonbackend-ebon.vercel.app/api/users/loggedInUser",
           {
             headers: {
               Authorization: `Bearer ${token}`,
