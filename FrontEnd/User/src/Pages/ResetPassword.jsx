@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+// import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 function ResetPassword() {
   const [oldPassword, setOldPassword] = useState("");
@@ -60,7 +60,7 @@ function ResetPassword() {
             onClick={() => setShowOldPassword(!showOldPassword)}
             style={styles.eyeButton}
           >
-            {showOldPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+           {/* {showOldPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />} */}
           </button>
         </div>
 
@@ -76,7 +76,7 @@ function ResetPassword() {
             onClick={() => setShowPassword(!showPassword)}
             style={styles.eyeButton}
           >
-            {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+            {/* {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />} */}
           </button>
         </div>
 
@@ -92,7 +92,7 @@ function ResetPassword() {
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             style={styles.eyeButton}
           >
-            {showConfirmPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+            {/* {showConfirmPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />} */}
           </button>
         </div>
 
