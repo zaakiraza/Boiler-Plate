@@ -1,76 +1,139 @@
-import user from '../Models/userModel.js';
-import { successHandler, errorHandler } from '../Utils/responseHandler.js';
+import User from "../models/user.js";
+import { successResponse, errorResponse } from "../Utils/responseHandler.js";
+import NotificationService from "../utils/notificationService.js";
+import AchievementService from "../utils/achievementService.js";
 
-export const getAllUsers = async (req, res) => {
-    const allUsers = await user.find().select('-password');
-    if (!allUsers) {
-        return errorHandler(res, 400, "No user found")
-    }
-    return successHandler(res, 200, "users finds", allUsers, allUsers.length)
-}
-
-export const getUserById = async (req, res) => {
-    const { id } = req.params;
-    if (!id) {
-        return errorHandler(res, 400, "Id se required");
-    }
-
-    const userDetail = await user.findById(id).select('-password');
-    if (!userDetail) {
-        return errorHandler(res, 400, "InValid Id");
-    }
-
-    return successHandler(res, 200, "users finds", userDetail, userDetail.length);
-}
-
-export const updateUser = async (req, res) => {
-    const { id } = req.params;
-    const { userName } = req.body;
-
-    if (!id) {
-        return errorHandler(res, 400, "Id se required");
-    }
-
-    if (!userName) {
-        return errorHandler(res, 400, "Feilds are missing to change");
-    }
-
-    const userDetail = await user.findById(id);
-    if (!userDetail) {
-        return errorHandler(res, 400, "InValid Id");
-    }
-    userDetail.userName = userName;
-    await userDetail.save();
-
-    return successHandler(res, 200, "user updated successfully");
-}
-
-export const deleteUser = async (req, res) => {
-    const { id } = req.params;
-
-    if (!id) {
-        return errorHandler(res, 400, "Id se required");
-    }
-
-    const userDelete = await user.findByIdAndDelete(id);
-    if (!userDelete) {
-        return errorHandler(res, 400, "InValid user");
-    }
-
-    return successHandler(res, 200, "user deleted successfully");
-}
-
-export const getLoggedInUser = async (req, res) => {
-    const userId = req.user;
+export const userController = {
+  getAllUsers: async (req, res) => {
     try {
-        const loggedInUser = await user.findById(userId.userId).select('-password -createdAt -updatedAt -isAdmin');
-        if (!loggedInUser) {
-            return errorHandler(res, 400, "User not found");
-        }
-        return successHandler(res, 200, "User found successfully", loggedInUser, 1);
+      const users = await User.find().select("-password");
+      return successResponse(
+        res,
+        200,
+        "Users fetched successfully",
+        { users },
+        true
+      );
+    } catch (error) {
+      return errorResponse(res, 500, "Failed to fetch users", {
+        error: error.message,
+      });
+    }
+  },
 
+  // Get user profile
+  getUserProfile: async (req, res) => {
+    try {
+      const userId = req.user.userId;
+      const user = await User.findById(userId)
+        .select("-password -otp -otpExpiresAt")
+        .populate({
+          path: "resumes.resumeId",
+          select: "title status lastModified downloadCount",
+        });
+
+      if (!user) {
+        return errorResponse(res, 404, "User not found");
+      }
+
+      // Calculate profile completion
+      const profileCompletion = user.calculateProfileCompletion();
+      await user.save();
+
+      successResponse(
+        res,
+        200,
+        "User profile fetched successfully",
+        { user },
+        true
+      );
+    } catch (error) {
+      console.error("Get User Profile Error:", error);
+      errorResponse(res, 500, "Failed to fetch user profile", {
+        error: error.message,
+      });
     }
-    catch (e) {
-        return errorHandler(res, 400, "Cannot find the user", e.message);
+  },
+
+  // Update user profile
+  updateUserProfile: async (req, res) => {
+    try {
+      const userId = req.user.userId;
+      const updates = req.body;
+
+      // Remove sensitive fields from updates
+      delete updates.password;
+      delete updates.email;
+      delete updates.isAdmin;
+      delete updates.verified;
+      delete updates.otp;
+      delete updates.otpExpiresAt;
+
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { ...updates },
+        { new: true, runValidators: true }
+      ).select("-password -otp -otpExpiresAt");
+
+      if (!user) {
+        return errorResponse(res, 404, "User not found");
+      }
+
+      // Calculate profile completion
+      user.calculateProfileCompletion();
+      await user.save();
+
+      // Create profile updated notification
+      await NotificationService.createProfileUpdatedNotification(
+        userId,
+        user.userName || user.email.split("@")[0]
+      );
+
+      // Check for profile completion achievements
+      await AchievementService.checkProfileAchievements(
+        userId,
+        user.profileCompletion || 0
+      );
+
+      successResponse(res, 200, "Profile updated successfully", { user }, true);
+    } catch (error) {
+      console.error("Update User Profile Error:", error);
+      errorResponse(res, 500, "Failed to update profile", {
+        error: error.message,
+      });
     }
-}
+  },
+
+  // Get user analytics
+  getUserAnalytics: async (req, res) => {
+    try {
+      const userId = req.user.userId;
+      const user = await User.findById(userId).select("analytics resumes");
+
+      if (!user) {
+        return errorResponse(res, 404, "User not found");
+      }
+
+      const analytics = {
+        ...user.analytics.toObject(),
+        totalResumes: user.resumes.length,
+        recentActivity: user.resumes
+          .sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified))
+          .slice(0, 5),
+      };
+
+      successResponse(
+        res,
+        200,
+        "Analytics fetched successfully",
+        { analytics },
+        true
+      );
+    } catch (error) {
+      console.error("Get User Analytics Error:", error);
+      errorResponse(res, 500, "Failed to fetch analytics", {
+        error: error.message,
+      });
+    }
+  },
+};

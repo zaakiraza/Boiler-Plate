@@ -1,16 +1,14 @@
-export const successHandler = (res, code, message, data, count) => {
-    return res.status(code).json({
-        status: true,
-        message: message,
-        data: data || null,
-        count: count || null
-    });
-}
+export const successResponse = (res, statusCode, message, data) => {
+  return res.status(statusCode).json({
+    status: true,
+    message,
+    data,
+  });
+};
 
-export const errorHandler = (res, code, message, error) => {
-    return res.status(code).json({
-        status: false,
-        message: message,
-        error: error || "some wrong"
-    });
-}
+export const errorResponse = (res, statusCode, message) => {
+  return res.status(statusCode).json({
+    status: false,
+    message,
+  });
+};
