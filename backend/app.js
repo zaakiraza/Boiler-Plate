@@ -51,3 +51,6 @@ if (process.env.NODE_ENV == "development") {
     console.log("Server is running");
   });
 }
+
+// Export the app so serverless platforms (Vercel) can invoke it.
+export default app;
