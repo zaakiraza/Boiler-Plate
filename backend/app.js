@@ -6,7 +6,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import connectDB from "./utils/DB.js";
 // import { startCronJob } from "./utils/cronJob.js";
-import authRouter from "./routes/authRoutes.js";
+import authRouter from "./Routes/authRoutes.js";
 import userRouter from "./routes/userRoute.js";
 
 dotenv.config();
