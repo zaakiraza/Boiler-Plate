@@ -46,7 +46,7 @@ app.get("/", (req, res) => {
 
 // For local development
 if (process.env.NODE_ENV === "development") {
-  const port = process.env.PORT || 5003;
+  const port = process.env.PORT || 3001;
   app.listen(port, () => {
     console.log("Server is running");
   });
