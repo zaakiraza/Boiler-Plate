@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema(
     verified: { type: Boolean, default: false },
     otp: { type: String, default: null },
     otpExpiresAt: { type: Date, default: null },
+    isActive: { type: Boolean, default: true },
 
     firstName: { type: String, default: "" },
     lastName: { type: String, default: "" },

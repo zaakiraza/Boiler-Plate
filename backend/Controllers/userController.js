@@ -4,7 +4,9 @@ import { successResponse, errorResponse } from "../utils/responseHandler.js";
 export const userController = {
   getAllUsers: async (req, res) => {
     try {
-      const users = await User.find().select("-password");
+      const users = await User.find().select(
+        "-password -v -updatedAt -createdAt -isAdmin -otpExpiresAt -otp"
+      );
       return successResponse(
         res,
         200,
@@ -19,12 +21,34 @@ export const userController = {
     }
   },
 
+  getById: async (req, res) => {
+    try {
+      const userId = req.params.id;
+      console.log(userId);
+      const user = await User.findById(userId).select(
+        "-password -v -updatedAt -createdAt -isAdmin -otpExpiresAt -otp"
+      );
+
+      if (!user) {
+        return errorResponse(res, 404, "User not found");
+      }
+
+      return successResponse(res, 200, "User fetched successfully", { user });
+    } catch (error) {
+      return errorResponse(res, 500, "Failed to fetch user", {
+        error: error.message,
+      });
+    }
+  },
+
   // Get user profile
   getUserProfile: async (req, res) => {
     try {
       const userId = req.user.userId;
       const user = await User.findById(userId)
-        .select("-password -otp -otpExpiresAt")
+        .select(
+          "-password -v -updatedAt -createdAt -isAdmin -otpExpiresAt -otp"
+        )
         .populate({
           path: "resumes.resumeId",
           select: "title status lastModified downloadCount",
@@ -77,10 +101,6 @@ export const userController = {
         return errorResponse(res, 404, "User not found");
       }
 
-      // Calculate profile completion
-      user.calculateProfileCompletion();
-      await user.save();
-
       successResponse(res, 200, "Profile updated successfully", { user }, true);
     } catch (error) {
       console.error("Update User Profile Error:", error);
@@ -90,34 +110,21 @@ export const userController = {
     }
   },
 
-  // Get user analytics
-  getUserAnalytics: async (req, res) => {
+  inActiceUser: async (req, res) => {
     try {
       const userId = req.user.userId;
-      const user = await User.findById(userId).select("analytics resumes");
-
+      const user = await User.findById(userId);
       if (!user) {
         return errorResponse(res, 404, "User not found");
       }
 
-      const analytics = {
-        ...user.analytics.toObject(),
-        totalResumes: user.resumes.length,
-        recentActivity: user.resumes
-          .sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified))
-          .slice(0, 5),
-      };
+      user.isActive = false;
+      await user.save();
 
-      successResponse(
-        res,
-        200,
-        "Analytics fetched successfully",
-        { analytics },
-        true
-      );
+      successResponse(res, 200, "User deleted successfully", { user }, true);
     } catch (error) {
-      console.error("Get User Analytics Error:", error);
-      errorResponse(res, 500, "Failed to fetch analytics", {
+      console.error("Deactivate User Error:", error);
+      errorResponse(res, 500, "Failed to deactivate user", {
         error: error.message,
       });
     }
