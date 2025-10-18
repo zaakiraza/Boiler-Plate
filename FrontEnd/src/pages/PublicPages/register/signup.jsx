@@ -160,8 +160,8 @@ const Signup = () => {
     <div className="signup-background">
       <div className="signup-card">
         <div className="signup-header">
-          <h1>Join ResumeAI</h1>
-          <p>Create your account and start building amazing resumes</p>
+          <h1>Join MediCare</h1>
+          <p>Your Health, Our Priority</p>
         </div>
 
         <form className="signup-form" onSubmit={handleSubmit}>

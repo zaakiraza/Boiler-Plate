@@ -69,7 +69,7 @@ const SignIn = () => {
       <div className="signin-card">
         <div className="signin-header">
           <h1>Welcome Back</h1>
-          <p>Sign in to your ResumeAI account</p>
+          <p>Sign in to your MediCare account</p>
         </div>
 
         <form

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FamilyMemberCard from "../../../components/ProtectedComponents/FamilyMemberCard/FamilyMemberCard";
-import FamilyMemberForm from "../../../components/FamilyMemberForm/FamilyMemberForm";
+import FamilyMemberForm from "../../../components/ProtectedComponents/FamilyMemberForm/FamilyMemberForm";
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -41,16 +41,16 @@ const Dashboard = () => {
           },
         }
       );
-      
+
       // Get user's family members from the response
-      const members = response.data.data.user.familyMembers || [];
-      
+      const members = response.data.data || [];
+
       // Add color to members if they don't have one
-      const membersWithColors = members.map(member => ({
+      const membersWithColors = members.map((member) => ({
         ...member,
-        avatarColor: member.avatarColor || getRandomColor()
+        avatarColor: member.avatarColor || getRandomColor(),
       }));
-      
+
       setFamilyMembers(membersWithColors);
     } catch (error) {
       console.error("Error fetching family members:", error);
@@ -61,7 +61,14 @@ const Dashboard = () => {
   };
 
   const getRandomColor = () => {
-    const colors = ['#ff6b6b', '#20c997', '#339af0', '#ff4081', '#7950f2', '#ff922b'];
+    const colors = [
+      "#ff6b6b",
+      "#20c997",
+      "#339af0",
+      "#ff4081",
+      "#7950f2",
+      "#ff922b",
+    ];
     return colors[Math.floor(Math.random() * colors.length)];
   };
 
@@ -109,24 +116,11 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <h1>HealthMate</h1>
+        <h1>Welcome {user?.firstName || user?.userName}!</h1>
         <button className="add-member-btn" onClick={handleAddMember}>
           + Add family member
         </button>
       </div>
-
-      <p className="dashboard-subtitle">
-        Tap a card to open that member's page. (We'll route this to /family/:id)
-      </p>
-
-      {error && (
-        <div className="error-message">
-          {error}
-          <button onClick={fetchFamilyMembers} className="retry-btn">
-            Try Again
-          </button>
-        </div>
-      )}
 
       {loading ? (
         <div className="loading-container">

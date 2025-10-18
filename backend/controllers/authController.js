@@ -273,7 +273,7 @@ This password meets all security requirements:
 ✓ Contains special characters
 
 Best regards,
-ResumeAI Security Team`
+MediCare Security Team`
   );
   return successResponse(
     res,

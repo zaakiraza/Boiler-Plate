@@ -72,9 +72,7 @@ const Footer = () => {
               <h3 className="brand-name">MediCare</h3>
               <span className="brand-icon">🚀</span>
             </div>
-            <p className="brand-tagline">
-              Create Professional Resumes in Minutes with AI
-            </p>
+            <p className="brand-tagline">Your Health, Our Priority</p>
             <p className="brand-description">
               Save your and your family's complete record of health information
               securely and access it anytime, anywhere.
@@ -231,7 +229,7 @@ const Footer = () => {
             <div className="footer-cta">
               <h5 className="cta-title">Ready to Get Started?</h5>
               <a href="/signup" className="footer-cta-btn">
-                Start Building Your Resume
+                Create Your Account
                 <span className="cta-btn-arrow">→</span>
               </a>
             </div>
@@ -241,7 +239,7 @@ const Footer = () => {
         {/* Footer Bottom */}
         <div className="footer-bottom">
           <div className="footer-bottom-content">
-            <p className="copyright">© 2025 ResumeAI. All Rights Reserved.</p>
+            <p className="copyright">© 2025 MediCare. All Rights Reserved.</p>
             <div className="footer-bottom-links">
               <a href="/privacy" className="bottom-link">
                 Privacy Policy

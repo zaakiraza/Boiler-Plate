@@ -6,7 +6,7 @@ export const familyMemberController = {
   getAllFamilyMembers: async (req, res) => {
     try {
       const familyMembers = await FamilyMember.find({
-        userId: req.user._id,
+        userId: req.user.userId,
         isActive: true,
       }).sort({ createdAt: -1 });
 
@@ -60,7 +60,7 @@ export const familyMemberController = {
       } = req.body;
 
       const familyMember = new FamilyMember({
-        userId: req.user._id,
+        userId: req.user.userId,
         name,
         relationship,
         dateOfBirth,
@@ -95,7 +95,7 @@ export const familyMemberController = {
       });
 
       if (!familyMember) {
-        return errorResponse(res, "Family member not found", 404);
+        return errorResponse(res, 404, "Family member not found");
       }
 
       const updateFields = [

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { uploadToCloudinary } from '../../utils/cloudinary';
+import { uploadToCloudinary } from '../../../utils/cloudinary';
 // import { analyzePDFWithGemini } from '../../utils/gemini';
 import './PdfAnalyzer.css';
 

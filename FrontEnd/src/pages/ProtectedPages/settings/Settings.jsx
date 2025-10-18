@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./Settings.css";
 
 const Settings = () => {
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div className="settings-wrapper">
       <Link to="/resetPassword">
-        <button className="button">Change Password</button>
+        <button className="change-password-button">Change Password</button>
       </Link>
     </div>
   );

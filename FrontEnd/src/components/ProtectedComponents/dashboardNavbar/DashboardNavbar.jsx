@@ -28,9 +28,7 @@ const DashboardNavbar = () => {
 
       <nav className="nav-center">
         <ul>
-          <li onClick={() => navigate("/dashboard")}>Overview</li>
-          <li onClick={() => navigate("/analytics")}>Analytics</li>
-          <li onClick={() => navigate("/projects")}>Projects</li>
+          <li onClick={() => navigate("/profile")}>Profile</li>
           <li onClick={() => navigate("/settings")}>Settings</li>
         </ul>
       </nav>
@@ -65,6 +63,17 @@ const DashboardNavbar = () => {
             </span>
           )}
           <span className="username">{user.userName || nameByEmail}</span>
+        </div>
+        <div className="logout">
+          <button
+            className="logout-button"
+            onClick={() => {
+              localStorage.removeItem("token");
+              navigate("/signin");
+            }}
+          >
+            Logout
+          </button>
         </div>
       </div>
     </header>
