@@ -8,6 +8,7 @@ import connectDB from "./utils/DB.js";
 // import { startCronJob } from "./utils/cronJob.js";
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoute.js";
+import connectDB from "./utils/DB.js";
 
 dotenv.config();
 const app = express();
@@ -39,6 +40,12 @@ connectDB();
 // Routes
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
+
+// Health-check route — returns DB connectivity status
+app.get("/health", async (req, res) => {
+  const dbOk = (await connectDB()) === true;
+  return res.json({ ok: true, dbConnected: dbOk });
+});
 
 app.get("/", (req, res) => {
   res.send("Hello, World! Your server is running 🎉");
