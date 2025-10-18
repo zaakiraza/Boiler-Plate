@@ -44,13 +44,5 @@ app.get("/", (req, res) => {
   res.send("Hello, World! Your server is running 🎉");
 });
 
-// For local development
-if (process.env.NODE_ENV == "development") {
-  const port = process.env.PORT || 5003;
-  app.listen(port, () => {
-    console.log("Server is running");
-  });
-}
-
 // Export the app so serverless platforms (Vercel) can invoke it.
 export default app;
