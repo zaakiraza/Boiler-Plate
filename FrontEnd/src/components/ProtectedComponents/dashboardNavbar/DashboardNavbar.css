@@ -7,26 +7,92 @@
   gap: 1rem;
   padding: var(--spacing-sm) 3%;
   background: var(--gradient-subtle);
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.nav-left { justify-self: start; }
-.brand { margin: 0; color: var(--color-text-white); cursor: pointer; }
+.nav-left {
+  justify-self: start;
+}
+.brand {
+  margin: 0;
+  color: var(--color-text-white);
+  cursor: pointer;
+}
 
-.nav-center { justify-self: center; }
-.nav-center ul { display: flex; gap: 1.25rem; list-style: none; padding: 0; margin: 0; }
-.nav-center li { cursor: pointer; color: var(--color-text-white); padding: 6px 10px; border-radius: var(--radius-sm); }
-.nav-center li:hover { background: rgba(255,255,255,0.03); }
+.nav-center {
+  justify-self: center;
+}
+.nav-center ul {
+  display: flex;
+  gap: 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.nav-center li {
+  cursor: pointer;
+  color: var(--color-text-white);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+}
+.nav-center li:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
 
-.nav-right { justify-self: end; display: flex; align-items: center; gap: 0.6rem; }
-.avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.06); }
-.username { color: var(--color-text-white); margin-left: 0.5rem; }
+.nav-right {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.06);
+}
+.profile-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.06);
+  display: inline-block;
+}
+.placeholder-avatar {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6c63ff, #00c2ff);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.username {
+  color: var(--color-text-white);
+  margin-left: 0.5rem;
+}
 
 @media (max-width: 768px) {
-  .nav-center ul { gap: 0.8rem; font-size: 0.95rem; }
+  .nav-center ul {
+    gap: 0.8rem;
+    font-size: 0.95rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .nav-center { display: none; }
-  .username { display: none; }
+  .nav-center {
+    display: none;
+  }
+  .username {
+    display: none;
+  }
+}
+
+.db-user {
+  cursor: pointer;
 }

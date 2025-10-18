@@ -63,7 +63,7 @@ const Navbar = () => {
     <div className="navbar">
       <div className="logo">
         {/* <img src="/logo.png" alt="" /> */}
-        <h1 onClick={() => handleNavClick("/")}>ResumeAI</h1>
+        <h1 onClick={() => handleNavClick("/")}>MediCare</h1>
       </div>
 
       {/* Hamburger Menu Button */}

@@ -1,9 +1,9 @@
 // API Configuration
 export const API_CONFIG = {
-  // BASE_URL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5003/api",
-  BASE_URL:
-    import.meta.env.VITE_API_BASE_URL ||
-    "https://hackathonbackend-omega.vercel.app/api",
+  BASE_URL: import.meta.env.VITE_API_BASE_URL || "http://localhost:3001/api",
+  // BASE_URL:
+  //   import.meta.env.VITE_API_BASE_URL ||
+  //   "https://hackathonbackend-omega.vercel.app/api",
   ENDPOINTS: {
     // Authentication endpoints
     LOGIN: "/auth/login",
@@ -51,6 +51,10 @@ export const API_CONFIG = {
     FEEDBACK_STATUS: "/feedback/:id/status",
     FEEDBACK_NOTES: "/feedback/:id/notes",
     FEEDBACK_RESOLVE: "/feedback/:id/resolve",
+
+    // Family member endpoints
+    FAMILY_MEMBERS: "/family-members",
+    FAMILY_MEMBER_BY_ID: "/family-members/:id",
   },
 };
 

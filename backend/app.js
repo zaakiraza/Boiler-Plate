@@ -8,6 +8,7 @@ import connectDB from "./utils/DB.js";
 // import { startCronJob } from "./utils/cronJob.js";
 import authRouter from "./Routes/authRoutes.js";
 import userRouter from "./routes/userRoute.js";
+import familyMemberRouter from "./routes/familyMemberRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -39,6 +40,7 @@ connectDB();
 // Routes
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
+app.use("/api/family-members", familyMemberRouter);
 
 // Health-check route — returns DB connectivity status
 app.get("/health", async (req, res) => {

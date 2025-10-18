@@ -69,16 +69,15 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="footer-brand">
             <div className="brand-logo">
-              <h3 className="brand-name">ResumeAI</h3>
+              <h3 className="brand-name">MediCare</h3>
               <span className="brand-icon">🚀</span>
             </div>
             <p className="brand-tagline">
               Create Professional Resumes in Minutes with AI
             </p>
             <p className="brand-description">
-              Transform your job search with our AI-powered resume creation
-              tools. Join thousands of professionals who have boosted their
-              careers with ResumeAI.
+              Save your and your family's complete record of health information
+              securely and access it anytime, anywhere.
             </p>
 
             {/* Contact Info */}

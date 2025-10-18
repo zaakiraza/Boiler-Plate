@@ -45,22 +45,13 @@ export const userController = {
   getUserProfile: async (req, res) => {
     try {
       const userId = req.user.userId;
-      const user = await User.findById(userId)
-        .select(
-          "-password -v -updatedAt -createdAt -isAdmin -otpExpiresAt -otp"
-        )
-        .populate({
-          path: "resumes.resumeId",
-          select: "title status lastModified downloadCount",
-        });
+      const user = await User.findById(userId).select(
+        "-password -v -updatedAt -createdAt -isAdmin -otpExpiresAt -otp"
+      );
 
       if (!user) {
         return errorResponse(res, 404, "User not found");
       }
-
-      // Calculate profile completion
-      const profileCompletion = user.calculateProfileCompletion();
-      await user.save();
 
       successResponse(
         res,

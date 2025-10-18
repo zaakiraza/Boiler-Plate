@@ -1,13 +1,29 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./DashboardNavbar.css";
 
-const DashboardNavbar = ({ user = { name: "John Doe", avatar: null } }) => {
+const DashboardNavbar = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState({});
+  const nameByEmail = user?.email?.split("@")[0] || "";
+  const getUser = async () => {
+    const api = await axios.get("http://localhost:3001/api/users/me", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    setUser(api.data.data.user);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <header className="dashboard-navbar simple">
       <div className="nav-left" onClick={() => navigate("/dashboard")}>
-        <h2 className="brand">Hackathon</h2>
+        <h2 className="brand">MediCare</h2>
       </div>
 
       <nav className="nav-center">
@@ -20,13 +36,35 @@ const DashboardNavbar = ({ user = { name: "John Doe", avatar: null } }) => {
       </nav>
 
       <div className="nav-right">
-        <div className="db-user">
-          <img
-            className="avatar"
-            src={user.avatar || "/logo192.png"}
-            alt="avatar"
-          />
-          <span className="username">{user.name}</span>
+        <div
+          className="db-user"
+          onClick={() => {
+            navigate("/profile");
+          }}
+        >
+          {user.profilePicture ? (
+            // If profilePicture is a URL, show the image. Otherwise fallback to placeholder
+            <img
+              src={user.profilePicture}
+              alt={user.userName || nameByEmail}
+              className="profile-avatar"
+              onError={(e) => {
+                // If image fails to load, replace with placeholder
+                e.target.onerror = null;
+                e.target.style.display = "none";
+                const parent = e.target.parentNode;
+                const span = document.createElement("span");
+                span.className = "placeholder-avatar";
+                span.textContent = (nameByEmail.charAt(0) || "").toUpperCase();
+                parent.insertBefore(span, e.target);
+              }}
+            />
+          ) : (
+            <span className="placeholder-avatar">
+              {nameByEmail.charAt(0).toUpperCase()}
+            </span>
+          )}
+          <span className="username">{user.userName || nameByEmail}</span>
         </div>
       </div>
     </header>

@@ -16,13 +16,15 @@ import Footer from "./components/PublicComponents/footer/Footer";
 // Protected Pages
 import Dashboard from "./pages/ProtectedPages/dashboard/Dashboard";
 import ResetPassword from "./pages/ProtectedPages/ResetPassword/esetPassword";
+import ProfilePage from "./pages/ProtectedPages/ProfilePage/ProfilePage";
+// import PdfAnalyzer from "./components/PdfAnalyzer/PdfAnalyzer";
 
 import { Route, Routes, useLocation } from "react-router-dom";
 
 function App() {
   const dashboardAllowed = ["/", "/signin", "/signup"];
   const allowFooter = ["/", "/home"];
-  const dashboardNavbarAllowed = ["/dashboard"];
+  const dashboardNavbarAllowed = ["/dashboard", "/analyze-pdf", "/profile"];
 
   const location = useLocation();
   const isDashboardAllowed = dashboardAllowed.includes(location.pathname);
@@ -45,6 +47,8 @@ function App() {
         <Route element={<ProtectedRoutes />}>
           <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          {/* <Route path="/analyze-pdf" element={<PdfAnalyzer />} /> */}
         </Route>
 
         <Route path="*" element={<h1>404 Not Found</h1>} />
