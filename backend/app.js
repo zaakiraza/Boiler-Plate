@@ -8,7 +8,6 @@ import connectDB from "./utils/DB.js";
 // import { startCronJob } from "./utils/cronJob.js";
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoute.js";
-import connectDB from "./utils/DB.js";
 
 dotenv.config();
 const app = express();
