@@ -48,9 +48,9 @@ const Contact = () => {
             <h3>
               <span>📍</span> Our Location
             </h3>
-            <p>123 Healthcare Avenue</p>
-            <p>Tech City, TC 12345</p>
-            <p>United States</p>
+            <p>ABC Street</p>
+            <p>Sindh karachi</p>
+            <p>Pakistan</p>
           </div>
 
           <div className="contact-method">

@@ -15,7 +15,7 @@ const Home = () => {
               all in one secure place. Smart health insights powered by AI to help you
               make better healthcare decisions.
             </p>
-            <Link to="/register" className="cta-button">
+            <Link to="/signin" className="cta-button">
               Get Started Free
             </Link>
           </div>
@@ -84,7 +84,7 @@ const Home = () => {
                 Upload any medical document and let our AI analyze it for you.
                 Get instant summaries, key findings, and recommendations in simple language.
               </p>
-              <Link to="/register" className="cta-button">
+              <Link to="/signin" className="cta-button">
                 Try it Now
               </Link>
             </div>
@@ -108,7 +108,7 @@ const Home = () => {
                 Add and manage multiple family members, track their health history,
                 and keep all important medical information organized and accessible.
               </p>
-              <Link to="/register" className="cta-button">
+              <Link to="/signin" className="cta-button">
                 Start Managing
               </Link>
             </div>

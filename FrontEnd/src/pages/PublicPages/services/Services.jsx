@@ -121,7 +121,7 @@ const Services = () => {
               <li>Limited AI Analysis</li>
               <li>Email Support</li>
             </ul>
-            <Link to="/register" className="cta-button">
+            <Link to="/signin" className="cta-button">
               Get Started
             </Link>
           </div>
@@ -139,7 +139,7 @@ const Services = () => {
               <li>Priority Support</li>
               <li>Health Insights</li>
             </ul>
-            <Link to="/register" className="cta-button">
+            <Link to="/signin" className="cta-button">
               Start Free Trial
             </Link>
           </div>
@@ -157,7 +157,7 @@ const Services = () => {
               <li>Custom Health Reports</li>
               <li>API Access</li>
             </ul>
-            <Link to="/register" className="cta-button">
+            <Link to="/signin" className="cta-button">
               Start Free Trial
             </Link>
           </div>
